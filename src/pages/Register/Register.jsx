@@ -1,18 +1,11 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 
 const Register = () => {
-    const {setCurrentUser} = useContext(AuthContext);
+    const { register } = useContext(AuthContext);
     const [registerErr, setRegisterErr] = useState([]);
-    const [userAdd, setUserAdd] = useState(false);
-
-    useEffect(() => {
-        const check = localStorage.getItem('currentUser');
-        if (check) {
-            setCurrentUser(check);
-        }
-    }, [setCurrentUser, userAdd]);
+    
 
     const handleRegister = e => {
         e.preventDefault();
@@ -45,10 +38,15 @@ const Register = () => {
                 console.log(response);
                 // set the email to ls 
                 localStorage.setItem('currentUser', response.data.email);
+                userRegister(response.data.email);
             })
+        
+        // reset the form fields 
+        form.reset();
+    }
 
-        setUserAdd(true);
-        console.log(formData);
+    const userRegister = (user) => {
+        register(user)
     }
 
     return (

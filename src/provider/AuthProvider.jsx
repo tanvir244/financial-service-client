@@ -11,13 +11,34 @@ const AuthProvider = ({children}) => {
         if (check) {
             setCurrentUser(check);
         }
-    }, []);
+    }, [currentUser]);
     console.log(currentUser);
+
+    // login 
+    const login = (user) => {
+        setCurrentUser(user);
+    }
+
+    // register
+    const register = (user) => {
+        setCurrentUser(user);
+    }
+
+    // remove user
+    const removeUser = () => {
+        if (localStorage.getItem('currentUser')) {
+            localStorage.removeItem('currentUser');
+            setCurrentUser('');
+        }
+    }
 
 
     const data = {
         currentUser,
-        setCurrentUser
+        setCurrentUser,
+        login,
+        register,
+        removeUser
     }
 
     return (

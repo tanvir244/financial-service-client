@@ -1,18 +1,9 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 
 const Login = () => {
-    const {setCurrentUser} = useContext(AuthContext);
-    const [userAdd, setUserAdd] = useState(false);
-
-
-    useEffect(() => {
-        const check = localStorage.getItem('currentUser');
-        if (check) {
-            setCurrentUser(check);
-        }
-    }, [setCurrentUser, userAdd]);
+    const { login } = useContext(AuthContext);
 
     const handleLogin = e => {
         e.preventDefault();
@@ -25,9 +16,15 @@ const Login = () => {
                 console.log(response);
                 // set the email to ls 
                 localStorage.setItem('currentUser', response.data.email);
+                userLogin(response.data.email);
             })
         
-        setUserAdd(true);
+        // clear the form fields 
+        form.reset();
+    }
+
+    const userLogin = (user) => {
+        login(user);
     }
 
     return (
